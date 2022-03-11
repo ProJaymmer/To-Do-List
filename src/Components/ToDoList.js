@@ -3,6 +3,6 @@ import ToDoItem from './ToDoItem';
 
 export default function ToDoList({ toDos }) {
 	return toDos.map((todo) => {
-		return <ToDoItem key={todo} todo={todo} />;
+		return <ToDoItem key={todo.id} todo={todo} />;
 	});
 }

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import ToDoList from './Components/ToDoList';
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
 	const [toDos, setToDos] = useState([]);
@@ -8,7 +9,10 @@ function App() {
 	function handleAddToDo(e) {
 		const name = toDoNameRef.current.value;
 		if (name === '') return;
-		console.log(name);
+		setToDos((prevToDos) => {
+			return [...prevToDos, { id: uuidv4(), name: name, complete: false }];
+		});
+		toDoNameRef.current.value = null;
 	}
 
 	return (

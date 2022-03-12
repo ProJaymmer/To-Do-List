@@ -1,10 +1,23 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ToDoList from './Components/ToDoList';
 import { v4 as uuidv4 } from 'uuid';
+
+const LOCAL_STORAGE_KEY = 'toDoApp.toDos';
 
 function App() {
 	const [toDos, setToDos] = useState([]);
 	const toDoNameRef = useRef();
+
+	// IF THERE ARE TODOS, THIS WILL GET THEM
+	useEffect(() => {
+		const storedToDos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+		if (storedToDos) setToDos(storedToDos);
+	}, []);
+
+	// THIS WILL STORE TODOS
+	useEffect(() => {
+		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(toDos));
+	}, [toDos]);
 
 	function handleAddToDo(e) {
 		const name = toDoNameRef.current.value;

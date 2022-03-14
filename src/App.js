@@ -50,3 +50,5 @@ function App() {
 }
 
 export default App;
+
+// PSEUDOCODE TO TEST COMMIT EMAIL RECONFIGURATION

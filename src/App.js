@@ -10,7 +10,7 @@ function App() {
 	const [toDos, setToDos] = useState([]);
 	const toDoNameRef = useRef();
 
-	// IF THERE ARE TODOS, THIS WILL GET THEM
+	// IF THERE ARE SAVED/STORED TODOS, THIS WILL GET THEM
 	useEffect(() => {
 		// LOCAL_STORAGE_KEY IS A STRING; toDos IS AN ARRAY, ERGO, MUST PARSE
 		const storedToDos = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
@@ -18,12 +18,20 @@ function App() {
 		// BECAUSE THE ARRAY BELOW IS EMPTY, USE EFFECT WILL ONLY RUN ONCE: ON PAGE LOAD.
 	}, []);
 
-	// THIS WILL STORE toDos EVERY TIME A TODO ITEM IS ADDED
+	// THIS WILL SAVE/STORE toDos EVERY TIME A TODO ITEM IS ADDED
 	useEffect(() => {
 		// MUST PASS INTO LOCAL STORAGE AS A STRING
 		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(toDos));
 		// EVERY TIME toDos CHANGES, useEffect WILL RUN FIRST PARAMETER.
 	}, [toDos]);
+
+	// IN REACT, NEVER DIRECTLY MODIFY A STATE VARIABLE; CREATE A COPY BEFORE MODIFYING IT, THEN USE COPY TO SET THE NEW STATE. PASS THIS FUNCTION DOWN TO CHILD COMPONENTS
+	function toggleToDo(id) {
+		const newToDos = [...toDos];
+		const toDo = newToDos.find((todo) => todo.id === id);
+		toDo.complete = !toDo.complete;
+		setToDos(newToDos);
+	}
 
 	// THIS WILL ADD A TODO ITEM
 	function handleAddToDo(e) {
@@ -41,7 +49,7 @@ function App() {
 
 	return (
 		<>
-			<ToDoList toDos={toDos} setToDos={setToDos} />
+			<ToDoList toDos={toDos} toggleToDo={toggleToDo} />
 			<input ref={toDoNameRef} type='text' />
 			<button onClick={handleAddToDo}>Add ToDo</button>
 			<button>Clear Completed ToDo</button>

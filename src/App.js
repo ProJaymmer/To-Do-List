@@ -1,6 +1,7 @@
 // useEffect (READ: SIDE EFFECT); WHEN AN ELEMENT IN ITS SECOND ARGUMENT (THE ARRAY) IS MODIFIED, useEffect WILL RE-RENDER THE FIRST ARGUMENT; I.E. A SIDE EFFECT OF THE SECOND ARGUMENT UPDATING IS THE FIRST ARGUMENT UPDATING AS WELL.
 import React, { useState, useRef, useEffect } from 'react';
 import ToDoList from './Components/ToDoList';
+// uuidv4 WILL GENERATE A RANDOM ID
 import { v4 as uuidv4 } from 'uuid';
 
 const LOCAL_STORAGE_KEY = 'toDoApp.toDos';
@@ -17,11 +18,11 @@ function App() {
 		// BECAUSE THE ARRAY BELOW IS EMPTY, USE EFFECT WILL ONLY RUN ONCE: ON PAGE LOAD.
 	}, []);
 
-	// THIS WILL STORE TODOS EVERY TIME A TODO ITEM IS ADDED
+	// THIS WILL STORE toDos EVERY TIME A TODO ITEM IS ADDED
 	useEffect(() => {
 		// MUST PASS INTO LOCAL STORAGE AS A STRING
 		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(toDos));
-		// EVERY TIME toDos CHANGES, USE EFFECT WILL RUN.
+		// EVERY TIME toDos CHANGES, useEffect WILL RUN FIRST PARAMETER.
 	}, [toDos]);
 
 	// THIS WILL ADD A TODO ITEM
@@ -30,11 +31,11 @@ function App() {
 		const name = toDoNameRef.current.value;
 		// IF THE INPUT FIELD IS BLANK UPON ENTERING, NOTHING IS RETURNED
 		if (name === '') return;
-		// THIS SETS THE TODO LIST WITH FORMER ENTRIES AND THE NEW ENTRY
+		// THIS SETS THE toDo ARRAY WITH FORMER ENTRIES AND THE NEW ENTRY
 		setToDos((prevToDos) => {
 			return [...prevToDos, { id: uuidv4(), name: name, complete: false }];
 		});
-		// THIS WILL CLEAR THE INPUT FIELD AFTER TODO ITEM IS ADDED TO LIST
+		// THIS WILL CLEAR THE INPUT FIELD AFTER ENTRY ITEM IS ADDED TO LIST
 		toDoNameRef.current.value = null;
 	}
 
@@ -50,5 +51,3 @@ function App() {
 }
 
 export default App;
-
-// PSEUDOCODE TO TEST COMMIT EMAIL RECONFIGURATION

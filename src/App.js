@@ -46,14 +46,19 @@ function App() {
 		// THIS WILL CLEAR THE INPUT FIELD AFTER ENTRY ITEM IS ADDED TO LIST
 		toDoNameRef.current.value = null;
 	}
+	// THIS WILL SET OUR toDos TO THE NEW LIST THAT DOESN'T HAVE ANY OF OUR COMPLETE ONES
+	function handleClearToDos() {
+		const newToDos = toDos.filter((todo) => !todo.complete);
+		setToDos(newToDos);
+	}
 
 	return (
 		<>
 			<ToDoList toDos={toDos} toggleToDo={toggleToDo} />
 			<input ref={toDoNameRef} type='text' />
 			<button onClick={handleAddToDo}>Add ToDo</button>
-			<button>Clear Completed ToDo</button>
-			<div>0 left to do</div>
+			<button onClick={handleClearToDos}>Clear Completed ToDo</button>
+			<div>{toDos.filter((todo) => !todo.complete).length} left to do</div>
 		</>
 	);
 }
